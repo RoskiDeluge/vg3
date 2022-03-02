@@ -26,7 +26,10 @@ const handler = async (req, res) => {
     case 'customer.subscription.created':
       await supabase
         .from('profile')
-        .update({ is_subscribed: true })
+        .update({
+          is_subscribed: true,
+          interval: event.data.object.items.data[0].plan.interval,
+        })
         .eq('stripe_customer', event.data.object.customer);
   }
 
